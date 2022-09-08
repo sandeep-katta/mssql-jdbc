@@ -1016,6 +1016,9 @@ public class SQLServerResultSet implements ISQLServerResultSet, java.io.Serializ
         // then it can't move any farther forward.
         if (AFTER_LAST_ROW == currentRow) {
             loggerExternal.exiting(getClassNameLogging(), "next", false);
+            if (logger.isLoggable(java.util.logging.Level.FINE)) {
+                logger.fine(" Exiting as all rows were read");
+            }
             return false;
         }
 
@@ -1028,6 +1031,9 @@ public class SQLServerResultSet implements ISQLServerResultSet, java.io.Serializ
 
             boolean value = hasCurrentRow();
             loggerExternal.exiting(getClassNameLogging(), "next", value);
+            if (!value && logger.isLoggable(java.util.logging.Level.FINE)) {
+                logger.fine(" Exiting from scrollable cursor");
+            }
             return value;
         }
 
@@ -1039,6 +1045,9 @@ public class SQLServerResultSet implements ISQLServerResultSet, java.io.Serializ
             if (currentRow == maxRows) {
                 currentRow = AFTER_LAST_ROW;
                 loggerExternal.exiting(getClassNameLogging(), "next", false);
+                if (logger.isLoggable(java.util.logging.Level.FINE)) {
+                    logger.fine(" Exiting as all rows were read for cursors");
+                }
                 return false;
             }
         }
@@ -1095,6 +1104,9 @@ public class SQLServerResultSet implements ISQLServerResultSet, java.io.Serializ
 
         currentRow = AFTER_LAST_ROW;
         loggerExternal.exiting(getClassNameLogging(), "next", false);
+        if (logger.isLoggable(java.util.logging.Level.FINE)) {
+            logger.fine(" Exiting from the next() block");
+        }
         return false;
     }
 
